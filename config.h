@@ -71,6 +71,8 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *browsercmd[] = { "google-chrome-stable", "--proxy-server=socks5://127.0.0.1:7890", NULL };
+static const char *chromiumcmd[] = { "chromium", "--proxy-server=socks5://127.0.0.1:7890", NULL };
+static const char *bravecmd[] = { "brave", "--proxy-server=socks5://127.0.0.1:7890", NULL };
 static const char *flameshotgui[] = { "flameshot", "gui", NULL };
 static const char *volset[] = { "pavucontrol", NULL };
 static const char *rangercmd[] = { "st", "-e", "ranger", NULL };
@@ -82,10 +84,16 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_c,      spawn,          {.v = browsercmd } },
+	{ MODKEY,                       XK_g,      spawn,          {.v = browsercmd } },
+	{ MODKEY|ShiftMask,             XK_g,      spawn,          {.v = bravecmd } },
+	{ MODKEY,                       XK_w,      spawn,          {.v = chromiumcmd } },
 	{ MODKEY,                       XK_r,      spawn,          {.v = rangercmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = flameshotgui } },
-	{ MODKEY,                       XK_v,      spawn,          {.v = volset } },
+	{ MODKEY,                       XK_x,      spawn,          {.v = volset } },
+	{ MODKEY,                       XK_c,      spawn,          SHCMD("xsel -o -p | xsel -i -b") },
+	{ MODKEY,                       XK_v,      spawn,          SHCMD("sleep 0.2 && xdotool key ctrl+shift+v") },
+	{ MODKEY,                       XK_o,      spawn,          SHCMD("xdotool click 1 && xdotool key ctrl+shift+v") },
+	{ MODKEY,                       XK_a,      spawn,          SHCMD("sleep 0.2 && xdotool key ctrl+a") },
   { 0,              XF86XK_AudioLowerVolume, spawn,          {.v = downvol } },
   { 0,              XF86XK_AudioMute,        spawn,          {.v = mutevol } },
   { 0,              XF86XK_AudioRaiseVolume, spawn,          {.v = upvol   } },
